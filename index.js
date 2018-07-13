@@ -19,9 +19,12 @@ module.exports = function(opts) {
       script: process.argv[1],
       arguments: process.argv.slice(2),
       exitCode: 0,
+      exitParent: true
     }, opts);
     opts.env = Object.assign({}, opts.env, {[id]: "1"});
     require("child_process").spawn(opts.node, [opts.script].concat(opts.arguments), opts).unref();
-    process.exit(opts.exitCode);
+    if ( opts.exitParent ) {
+      process.exit(opts.exitCode);
+    }
   }
 };
